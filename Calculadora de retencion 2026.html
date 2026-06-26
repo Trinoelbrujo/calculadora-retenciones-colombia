@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Calculadora Retenciones Colombia 2026</title>
+    <style>
+        :root {
+            --primary: #1a237e;
+            --secondary: #283593;
+            --accent: #3949ab;
+            --success: #2e7d32;
+            --warning: #f57f17;
+            --danger: #c62828;
+            --light: #f5f5f5;
+            --white: #ffffff;
+            --gray: #757575;
+            --border: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a237e 0%, #0d47a1 50%, #01579b 100%);
+            min-height: 100vh;
+            padding: 10px;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1a237e, #283593);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 5px;
+        }
+
+        .header .flag {
+            font-size: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .subtitle {
+            font-size: 13px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+            margin-top: 5px;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: var(--light);
+            border-radius: 12px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title .icon {
+            font-size: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #333;
+            font-weight: 500;
+            font-size: 13px;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 16px;
+            background: white;
+            transition: all 0.3s ease;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23333' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            padding-right: 35px;
+        }
+
+        select:focus, input:focus {
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(57, 73, 171, 0.1);
+        }
+
+        input[type="date"] {
+            padding-right: 15px;
+        }
+
+        .btn-calcular {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #1a237e, #283593);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-calcular:active {
+            transform: scale(0.98);
+            box-shadow: 0 5px 15px rgba(26, 35, 126, 0.4);
+        }
+
+        .btn-calcular::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn-calcular:active::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        .resultado {
+            margin-top: 20px;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            display: none;
+            border: 2px solid var(--accent);
+        }
+
+        .resultado.active {
+            display: block;
+        }
+
+        .resultado-header {
+            background: var(--success);
+            color: white;
+            padding: 12px 15px;
+            font-weight: 600;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .resultado-body {
+            padding: 15px;
+        }
+
+        .resultado-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+
+        .resultado-item:last-child {
+            border-bottom: none;
+        }
+
+        .resultado-item .label {
+            color: #555;
+            flex: 1;
+        }
+
+        .resultado-item .value {
+            font-weight: 600;
+            text-align: right;
+            flex: 1;
+        }
+
+        .resultado-item.total {
+            background: #e8eaf6;
+            margin: -15px;
+            padding: 15px;
+            margin-top: 10px;
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--primary);
+        }
+
+        .resultado-item.neto {
+            background: #e8f5e9;
+            margin: -15px;
+            padding: 15px;
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--success);
+        }
+
+        .alerta {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .alerta-warning {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            color: #856404;
+        }
+
+        .alerta-info {
+            background: #d1ecf1;
+            border: 1px solid #17a2b8;
+            color: #0c5460;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .badge-suspension {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .badge-vigente {
+            background: #28a745;
+            color: white;
+        }
+
+        .footer-info {
+            text-align: center;
+            padding: 15px;
+            color: var(--gray);
+            font-size: 11px;
+            border-top: 1px solid var(--border);
+            margin-top: 15px;
+        }
+
+        /* Animaciones */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        /* Estilos para tooltips */
+        .info-icon {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 16px;
+            font-size: 11px;
+            cursor: help;
+            margin-left: 5px;
+        }
+
+        /* Responsive */
+        @media (max-width: 360px) {
+            .header h1 {
+                font-size: 18px;
+            }
+            .content {
+                padding: 15px;
+            }
+            select, input {
+                padding: 10px 12px;
+                font-size: 14px;
+            }
+            .btn-calcular {
+                padding: 14px;
+                font-size: 16px;
+            }
+        }
+
+        /* Modo oscuro */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: linear-gradient(135deg, #0d1b2a 0%, #1b2838 50%, #0d2137 100%);
+            }
+            .container {
+                background: #1e1e1e;
+            }
+            .section {
+                background: #2d2d2d;
+                border-left-color: #5c6bc0;
+            }
+            .section-title {
+                color: #9fa8da;
+            }
+            label {
+                color: #ccc;
+            }
+            select, input {
+                background: #333;
+                border-color: #444;
+                color: #fff;
+            }
+            .resultado {
+                border-color: #5c6bc0;
+            }
+            .resultado-body {
+                background: #2d2d2d;
+            }
+            .resultado-item .label {
+                color: #aaa;
+            }
+            .resultado-item .value {
+                color: #fff;
+            }
+            .resultado-item.total {
+                background: #1a237e;
+                color: #fff;
+            }
+            .resultado-item.neto {
+                background: #1b5e20;
+                color: #a5d6a7;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="flag">🇨🇴</div>
+            <h1>Calculadora de Retenciones</h1>
+            <div class="subtitle">Colombia 2026 · UVT: $52,374</div>
+        </div>
+
+        <div class="content">
+            <!-- Datos de la Operación -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="icon">📋</span>
+                    Datos de la Operación
+                </div>
+
+                <div class="form-group">
+                    <label>📅 Fecha de la operación:</label>
+                    <input type="date" id="fechaOperacion" required>
+                </div>
+
+                <div class="form-group">
+                    <label>📦 Tipo de servicio/compra:</label>
+                    <select id="tipoServicio">
+                        <optgroup label="Servicios">
+                            <option value="SERVICIOS_GENERALES">Servicios Generales (4-6%)</option>
+                            <option value="SERVICIOS_PROFESIONALES">Servicios Profesionales (10-11%)</option>
+                            <option value="SERVICIOS_TECNICOS">Servicios Técnicos (4-6%)</option>
+                            <option value="CONSULTORIA">Consultoría (6-11%)</option>
+                            <option value="SOFTWARE">Software y Tecnología (3.5-6%)</option>
+                            <option value="PUBLICIDAD">Publicidad (4%)</option>
+                            <option value="SERVICIOS_TEMPORALES">Servicios Temporales (1%)</option>
+                            <option value="VIGILANCIA_ASEO">Vigilancia y Aseo (2%)</option>
+                            <option value="HOTELES_RESTAURANTES">Hoteles y Restaurantes (3.5%)</option>
+                            <option value="SERVICIOS_SALUD">Servicios de Salud (4%)</option>
+                            <option value="SERVICIOS_EDUCACION">Servicios de Educación (1%)</option>
+                        </optgroup>
+                        <optgroup label="Honorarios y Comisiones">
+                            <option value="HONORARIOS">Honorarios (10-11%)</option>
+                            <option value="COMISIONES">Comisiones (10%)</option>
+                        </optgroup>
+                        <optgroup label="Arrendamientos">
+                            <option value="ARRENDAMIENTOS_BIENES_MUEBLES">Arrendamiento Bienes Muebles (4%)</option>
+                            <option value="ARRENDAMIENTOS_BIENES_INMUEBLES">Arrendamiento Bienes Inmuebles (3.5%)</option>
+                        </optgroup>
+                        <optgroup label="Transporte">
+                            <option value="TRANSPORTE_CARGA">Transporte de Carga (1%)</option>
+                            <option value="TRANSPORTE_PASAJEROS">Transporte de Pasajeros (3.5%)</option>
+                        </optgroup>
+                        <optgroup label="Construcción">
+                            <option value="CONSTRUCCION">Construcción (2%)</option>
+                        </optgroup>
+                        <optgroup label="Compras">
+                            <option value="COMPRA_BIENES_GENERAL">Compra de Bienes General (2.5%)</option>
+                            <option value="COMPRA_AGRICOLAS_SIN_PROCESAR">Productos Agrícolas Sin Procesar (1.5%)</option>
+                            <option value="COMPRA_CAFE">Compra de Café (0.5%)</option>
+                            <option value="COMPRA_CACAO">Compra de Cacao (0.5%)</option>
+                        </optgroup>
+                        <optgroup label="Pagos al Exterior">
+                            <option value="PAGOS_EXTERIOR_CONSULTORIA">Pagos al Exterior - Consultoría (20%)</option>
+                            <option value="PAGOS_EXTERIOR_SERVICIOS">Pagos al Exterior - Servicios (15%)</option>
+                            <option value="PAGOS_EXTERIOR_LICENCIAS">Pagos al Exterior - Licencias (25%)</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>💰 Valor base de la operación ($):</label>
+                    <input type="number" id="valorBase" placeholder="Ingrese el valor en pesos" min="1" step="any" required>
+                </div>
+            </div>
+
+            <!-- Datos del Sujeto Activo -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="icon">🏢</span>
+                    Datos del Sujeto Activo (Pagador)
+                </div>
+
+                <div class="form-group">
+                    <label>👤 Tipo de persona:</label>
+                    <select id="tipoPersona">
+                        <option value="NATURAL">Persona Natural</option>
+                        <option value="JURIDICA">Persona Jurídica</option>
+                        <option value="ENTIDAD_PUBLICA">Entidad Pública</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="grupoResponsableIVA">
+                    <label>✅ ¿Es responsable de IVA?</label>
+                    <select id="responsableIVA">
+                        <option value="SI">Sí</option>
+                        <option value="NO">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="grupoObligadoFacturar">
+                    <label>🧾 ¿Está obligado a facturar electrónicamente?</label>
+                    <select id="obligadoFacturar">
+                        <option value="SI">Sí</option>
+                        <option value="NO">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>📊 Régimen fiscal:</label>
+                    <select id="regimenFiscal">
+                        <option value="COMUN">Régimen Común</option>
+                        <option value="GRAN_CONTRIBUYENTE">Gran Contribuyente</option>
+                        <option value="AUTORRETENEDOR">Autorretenedor</option>
+                        <option value="NO_RESPONSABLE_IVA">No Responsable de IVA</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Botón Calcular -->
+            <button class="btn-calcular" onclick="calcularRetencion()">
+                🔍 Calcular Retención
+            </button>
+
+            <!-- Resultados -->
+            <div id="resultado" class="resultado fade-in">
+                <div class="resultado-header">
+                    📊 Resultados del Cálculo
+                </div>
+                <div class="resultado-body">
+                    <div class="resultado-item">
+                        <span class="label">Base Gravable:</span>
+                        <span class="value" id="baseGravable">$0</span>
+                    </div>
+                    <div class="resultado-item">
+                        <span class="label">IVA Generado:</span>
+                        <span class="value" id="ivaGenerado">$0</span>
+                    </div>
+                    <div class="resultado-item">
+                        <span class="label">Retención en la Fuente:</span>
+                        <span class="value" id="retencionFuente">$0</span>
+                    </div>
+                    <div class="resultado-item" id="filaRetencionIVA">
+                        <span class="label">Retención de IVA (15%):</span>
+                        <span class="value" id="retencionIVA">$0</span>
+                    </div>
+                    <div class="resultado-item">
+                        <span class="label">Retención ICA:</span>
+                        <span class="value" id="retencionICA">$0</span>
+                    </div>
+                    <div class="resultado-item total">
+                        <span class="label">Total Retenciones:</span>
+                        <span class="value" id="totalRetenciones">$0</span>
+                    </div>
+                    <div class="resultado-item neto">
+                        <span class="label">💵 VALOR NETO A PAGAR:</span>
+                        <span class="value" id="valorNeto">$0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alertas -->
+            <div id="alertaSuspension" class="alerta alerta-warning" style="display:none;">
+                ⚠️ <strong>Suspensión Decreto 572/2025:</strong> 
+                El Consejo de Estado revocó el decreto con efectos desde el 1° de julio de 2026. 
+                Las tarifas de retención vuelven a los valores anteriores a dicha fecha.
+            </div>
+
+            <div id="alertaBaseMinima" class="alerta alerta-info" style="display:none;">
+                ℹ️ <strong>Base mínima no superada:</strong> 
+                La retención en la fuente no aplica porque el valor base no supera las 27 UVT ($1,414,098).
+            </div>
+
+            <div class="footer-info">
+                © 2026 · Calculadora Tributaria Colombia<br>
+                UVT 2026: $52,374 · Estatuto Tributario<br>
+                Ley 2277/2022 · Consejo de Estado
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Constantes UVT 2026
+        const UVT_2026 = 52374;
+        const BASE_MINIMA_UVT = 27;
+        const BASE_MINIMA_PESOS = BASE_MINIMA_UVT * UVT_2026;
+        const FECHA_SUSPENSION = new Date('2026-07-01');
+
+        // Tarifas de retención en la fuente (antes de julio 2026)
+        const TARIFAS_RETENCION_ANTES = {
+            'SERVICIOS_GENERALES': { tarifa: 0.04, base_uvt: 27 },
+            'SERVICIOS_PROFESIONALES': { tarifa: 0.10, base_uvt: 27 },
+            'ARRENDAMIENTOS_BIENES_MUEBLES': { tarifa: 0.04, base_uvt: 27 },
+            'ARRENDAMIENTOS_BIENES_INMUEBLES': { tarifa: 0.035, base_uvt: 27 },
+            'HONORARIOS': { tarifa: 0.10, base_uvt: 27 },
+            'COMISIONES': { tarifa: 0.10, base_uvt: 27 },
+            'SERVICIOS_TECNICOS': { tarifa: 0.04, base_uvt: 27 },
+            'TRANSPORTE_CARGA': { tarifa: 0.01, base_uvt: 27 },
+            'TRANSPORTE_PASAJEROS': { tarifa: 0.035, base_uvt: 27 },
+            'PUBLICIDAD': { tarifa: 0.04, base_uvt: 27 },
+            'CONSTRUCCION': { tarifa: 0.02, base_uvt: 27 },
+            'CONSULTORIA': { tarifa: 0.06, base_uvt: 27 },
+            'COMPRA_BIENES_GENERAL': { tarifa: 0.025, base_uvt: 27 },
+            'COMPRA_AGRICOLAS_SIN_PROCESAR': { tarifa: 0.015, base_uvt: 27 },
+            'COMPRA_CAFE': { tarifa: 0.005, base_uvt: 0 },
+            'COMPRA_CACAO': { tarifa: 0.005, base_uvt: 0 },
+            'SOFTWARE': { tarifa: 0.035, base_uvt: 27 },
+            'SERVICIOS_TEMPORALES': { tarifa: 0.01, base_uvt: 27 },
+            'VIGILANCIA_ASEO': { tarifa: 0.02, base_uvt: 27 },
+            'HOTELES_RESTAURANTES': { tarifa: 0.035, base_uvt: 27 },
+            'SERVICIOS_SALUD': { tarifa: 0.04, base_uvt: 0 },
+            'SERVICIOS_EDUCACION': { tarifa: 0.01, base_uvt: 0 },
+            'PAGOS_EXTERIOR_CONSULTORIA': { tarifa: 0.20, base_uvt: 0 },
+            'PAGOS_EXTERIOR_SERVICIOS': { tarifa: 0.15, base_uvt: 0 },
+            'PAGOS_EXTERIOR_LICENCIAS': { tarifa: 0.25, base_uvt: 0 }
+        };
+
+        // Ajustes por suspensión del Decreto 572/2025 (después de julio)
+        const AJUSTES_SUSPENSION = {
+            'HONORARIOS': 0.11,
+            'SERVICIOS_PROFESIONALES': 0.11,
+            'CONSULTORIA': 0.11,
+            'SOFTWARE': 0.06,
+            'SERVICIOS_GENERALES': 0.06,
+            'SERVICIOS_TECNICOS': 0.06
+        };
+
+        // Tarifas de IVA
+        const TARIFAS_IVA = {
+            'SERVICIOS_GENERALES': 0.19,
+            'SERVICIOS_PROFESIONALES': 0.19,
+            'ARRENDAMIENTOS_BIENES_MUEBLES': 0.19,
+            'ARRENDAMIENTOS_BIENES_INMUEBLES': 0.19,
+            'HONORARIOS': 0.0,
+            'COMISIONES': 0.19,
+            'SERVICIOS_TECNICOS': 0.19,
+            'TRANSPORTE_CARGA': 0.19,
+            'TRANSPORTE_PASAJEROS': 0.0,
+            'PUBLICIDAD': 0.19,
+            'CONSTRUCCION': 0.19,
+            'CONSULTORIA': 0.19,
+            'COMPRA_BIENES_GENERAL': 0.19,
+            'COMPRA_AGRICOLAS_SIN_PROCESAR': 0.19,
+            'COMPRA_CAFE': 0.0,
+            'COMPRA_CACAO': 0.0,
+            'SOFTWARE': 0.19,
+            'SERVICIOS_TEMPORALES': 0.19,
+            'VIGILANCIA_ASEO': 0.19,
+            'HOTELES_RESTAURANTES': 0.19,
+            'SERVICIOS_SALUD': 0.0,
+            'SERVICIOS_EDUCACION': 0.0,
+            'PAGOS_EXTERIOR_CONSULTORIA': 0.19,
+            'PAGOS_EXTERIOR_SERVICIOS': 0.19,
+            'PAGOS_EXTERIOR_LICENCIAS': 0.19
+        };
+
+        // Servicios que aplican retención de IVA
+        const SERVICIOS_RETENCION_IVA = [
+            'SERVICIOS_GENERALES',
+            'SERVICIOS_PROFESIONALES',
+            'SERVICIOS_TECNICOS',
+            'CONSULTORIA',
+            'SOFTWARE',
+            'PUBLICIDAD',
+            'ARRENDAMIENTOS_BIENES_MUEBLES',
+            'ARRENDAMIENTOS_BIENES_INMUEBLES',
+            'VIGILANCIA_ASEO',
+            'HOTELES_RESTAURANTES',
+            'SERVICIOS_TEMPORALES'
+        ];
+
+        // Tarifas ICA (por mil, convertidas a decimal)
+        const TARIFAS_ICA = {
+            'SERVICIOS_GENERALES': 0.0069,
+            'SERVICIOS_PROFESIONALES': 0.00966,
+            'COMISIONES': 0.00966,
+            'CONSTRUCCION': 0.0048,
+            'SOFTWARE': 0.0069,
+            'CONSULTORIA': 0.00966
+        };
+
+        // Inicializar fecha actual
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            document.getElementById('fechaOperacion').value = `${yyyy}-${mm}-${dd}`;
+            
+            // Configurar eventos para tipo de persona
+            document.getElementById('tipoPersona').addEventListener('change', actualizarCamposPersona);
+            actualizarCamposPersona();
+        });
+
+        function actualizarCamposPersona() {
+            const tipoPersona = document.getElementById('tipoPersona').value;
+            const grupoIVA = document.getElementById('grupoResponsableIVA');
+            const grupoFacturar = document.getElementById('grupoObligadoFacturar');
+            
+            if (tipoPersona === 'JURIDICA' || tipoPersona === 'ENTIDAD_PUBLICA') {
+                grupoIVA.style.display = 'none';
+                grupoFacturar.style.display = 'none';
+                document.getElementById('responsableIVA').value = 'SI';
+                document.getElementById('obligadoFacturar').value = 'SI';
+            } else {
+                grupoIVA.style.display = 'block';
+                grupoFacturar.style.display = 'block';
+            }
+        }
+
+        function formatearPesos(valor) {
+            return new Intl.NumberFormat('es-CO', {
+                style: 'currency',
+                currency: 'COP',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(valor);
+        }
+
+        function formatearPesosDecimal(valor) {
+            return new Intl.NumberFormat('es-CO', {
+                style: 'currency',
+                currency: 'COP',
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }).format(valor);
+        }
+
+        function obtenerTarifaRetencion(tipoServicio, fechaOperacion) {
+            const tarifaBase = TARIFAS_RETENCION_ANTES[tipoServicio];
+            if (!tarifaBase) return { tarifa: 0.04, base_uvt: 27 };
+            
+            const aplicaSuspension = fechaOperacion >= FECHA_SUSPENSION;
+            
+            if (aplicaSuspension && AJUSTES_SUSPENSION.hasOwnProperty(tipoServicio)) {
+                return {
+                    tarifa: AJUSTES_SUSPENSION[tipoServicio],
+                    base_uvt: tarifaBase.base_uvt
+                };
+            }
+            
+            return tarifaBase;
+        }
+
+        function calcularRetencion() {
+            // Obtener valores del formulario
+            const fechaOperacionStr = document.getElementById('fechaOperacion').value;
+            const tipoServicio = document.getElementById('tipoServicio').value;
+            const valorBase = parseFloat(document.getElementById('valorBase').value);
+            const tipoPersona = document.getElementById('tipoPersona').value;
+            const responsableIVA = document.getElementById('responsableIVA').value === 'SI';
+            const obligadoFacturar = document.getElementById('obligadoFacturar').value === 'SI';
+            const regimenFiscal = document.getElementById('regimenFiscal').value;
+            
+            // Validaciones
+            if (!fechaOperacionStr) {
+                alert('⚠️ Por favor, seleccione la fecha de la operación.');
+                return;
+            }
+            
+            if (!valorBase || valorBase <= 0) {
+                alert('⚠️ Por favor, ingrese un valor base válido mayor a $0.');
+                return;
+            }
+            
+            const fechaOperacion = new Date(fechaOperacionStr + 'T00:00:00');
+            const esAutorretenedor = regimenFiscal === 'AUTORRETENEDOR';
+            
+            // Obtener tarifas
+            const tarifaRetencion = obtenerTarifaRetencion(tipoServicio, fechaOperacion);
+            const tarifaIVA = TARIFAS_IVA[tipoServicio] || 0.19;
+            const tarifaICA = TARIFAS_ICA[tipoServicio] || 0.0069;
+            
+            // Calcular base mínima en pesos
+            const baseMinimaPesos = tarifaRetencion.base_uvt * UVT_2026;
+            
+            // Determinar si aplica retención en la fuente
+            let aplicaRetencion = true;
+            if (valorBase < baseMinimaPesos && !esAutorretenedor && tarifaRetencion.base_uvt > 0) {
+                aplicaRetencion = false;
+            }
+            
+            // Calcular retención en la fuente
+            const retencionFuente = aplicaRetencion ? valorBase * tarifaRetencion.tarifa : 0;
+            
+            // Calcular IVA
+            const ivaGenerado = valorBase * tarifaIVA;
+            
+            // Calcular retención de IVA
+            let retencionIVA = 0;
+            if (responsableIVA && ivaGenerado > 0 && SERVICIOS_RETENCION_IVA.includes(tipoServicio)) {
+                retencionIVA = ivaGenerado * 0.15;
+            }
+            
+            // Calcular ICA
+            const ica = valorBase * tarifaICA;
+            
+            // Calcular totales
+            const totalRetenciones = retencionFuente + retencionIVA + ica;
+            const valorNeto = valorBase + ivaGenerado - totalRetenciones;
+            
+            // Mostrar resultados
+            document.getElementById('baseGravable').textContent = formatearPesosDecimal(valorBase);
+            document.getElementById('ivaGenerado').textContent = formatearPesosDecimal(ivaGenerado);
+            document.getElementById('retencionFuente').textContent = 
+                formatearPesosDecimal(retencionFuente) + 
+                ` (${(tarifaRetencion.tarifa * 100).toFixed(1)}%)`;
+            document.getElementById('retencionIVA').textContent = formatearPesosDecimal(retencionIVA);
+            document.getElementById('retencionICA').textContent = 
+                formatearPesosDecimal(ica) + 
+                ` (${(tarifaICA * 1000).toFixed(2)} por mil)`;
+            document.getElementById('totalRetenciones').textContent = formatearPesosDecimal(totalRetenciones);
+            document.getElementById('valorNeto').textContent = formatearPesosDecimal(valorNeto);
+            
+            // Mostrar/ocultar fila de retención IVA
+            const filaRetencionIVA = document.getElementById('filaRetencionIVA');
+            if (retencionIVA > 0) {
+                filaRetencionIVA.style.display = 'flex';
+            } else {
+                filaRetencionIVA.style.display = 'none';
+            }
+            
+            // Mostrar panel de resultados
+            const resultado = document.getElementById('resultado');
+            resultado.classList.add('active');
+            
+            // Mostrar/ocultar alertas
+            const alertaSuspension = document.getElementById('alertaSuspension');
+            const alertaBaseMinima = document.getElementById('alertaBaseMinima');
+            
+            // Alerta de suspensión
+            if (fechaOperacion >= FECHA_SUSPENSION && AJUSTES_SUSPENSION.hasOwnProperty(tipoServicio)) {
+                alertaSuspension.style.display = 'block';
+            } else {
+                alertaSuspension.style.display = 'none';
+            }
+            
+            // Alerta de base mínima
+            if (!aplicaRetencion && !esAutorretenedor) {
+                alertaBaseMinima.style.display = 'block';
+            } else {
+                alertaBaseMinima.style.display = 'none';
+            }
+            
+            // Scroll al resultado
+            setTimeout(() => {
+                resultado.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
+        }
+    </script>
+</body>
+</html>
